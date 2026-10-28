@@ -1,0 +1,287 @@
+<title>Jev Squash Academy</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Jev Squash Academy: DOSB-licensed squash coaching in Frankfurt. Tailored squash coaching for juniors and adults.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&family=Unbounded:wght@500;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=Russo+One&display=swap">
+<style>
+/* Layout: one quiet left-aligned column on a dark court; faint b/w "stamps" scattered behind
+   (photos only, or photos + rubber-stamped shot names). */
+:root{
+  --bg:#0e1013;
+  --fg:#f2f0eb;
+  --muted:#9a9890;
+  --soft:#cfccc4;
+  --rule:rgba(242,240,235,.14);
+  --red:#d6233c;
+  --ink:#e9e7e1;
+  --display:"Unbounded","Arial Black",system-ui,sans-serif;
+  --body:"Onest",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --title:"Russo One",var(--display);
+  --tw:400;
+  color-scheme:dark;
+}
+/* Font set follows the background switch: Photos = strict (IBM Plex Sans); Shots = Onest/Unbounded + Russo One title. */
+body[data-bg="photos"]{--display:"IBM Plex Sans",system-ui,sans-serif;--body:"IBM Plex Sans",system-ui,sans-serif;--title:"IBM Plex Sans",system-ui,sans-serif;--tw:700}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+
+/* ---------- stamps ---------- */
+.stamps{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.stamps > *{position:absolute;opacity:0;transition:opacity 1.2s ease}
+.stamps.on > *{opacity:var(--o)}
+.photo{padding:7px;background:var(--ink);filter:grayscale(1) contrast(1.05);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,radial-gradient(circle 3.5px,#0000 97%,#000) -6px -6px/12px 12px round;
+          mask:linear-gradient(#000 0 0) content-box,radial-gradient(circle 3.5px,#0000 97%,#000) -6px -6px/12px 12px round}
+.photo img{display:block;width:100%;height:100%;object-fit:cover;max-width:none}
+.word{font-family:var(--display);font-weight:800;text-transform:uppercase;letter-spacing:.06em;line-height:1;color:var(--ink);
+  border:.12em solid currentColor;outline:.05em solid currentColor;outline-offset:.12em;padding:.32em .5em .28em;white-space:nowrap;
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' seed='4'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -2.4 1.7'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+          mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' seed='4'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -2.4 1.7'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E")}
+.word.red{color:var(--red)}
+
+/* ---------- page ---------- */
+.page{position:relative;z-index:1;max-width:720px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;gap:56px;
+  padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(24px,env(safe-area-inset-right,0px));padding-block:28px 32px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.mark{font-family:var(--display);font-weight:800;letter-spacing:.08em;font-size:14px;display:flex;gap:9px;align-items:center}
+.ball{width:14px;height:14px;border-radius:50%;background:#000;box-shadow:0 0 0 1px rgba(255,255,255,.3);position:relative}
+.ball::before,.ball::after{content:"";position:absolute;top:3px;width:3px;height:3px;border-radius:50%;background:#f2c81b}
+.ball::before{left:3px}.ball::after{left:8px}
+.controls{display:flex;align-items:center;gap:14px}
+.seg{display:flex;gap:2px;font-size:12px;font-weight:600;letter-spacing:.1em}
+.seg button{all:unset;cursor:pointer;padding:6px 7px;color:var(--muted);border-radius:4px;display:grid;place-items:center}
+.seg button[aria-pressed="true"]{color:var(--fg)}
+.seg button svg{width:16px;height:16px;fill:currentColor}
+.seg.bgsw{border-left:1px solid var(--rule);padding-left:10px}
+.seg button:focus-visible,.btn:focus-visible,.link:focus-visible{outline:2px solid var(--red);outline-offset:3px}
+
+.hero{display:flex;flex-direction:column;gap:22px;margin-top:clamp(24px,8vh,90px);position:relative}
+.hero-photo{position:absolute;z-index:-1;right:-30px;top:-10px;width:180px;height:234px;opacity:.26;transform:rotate(7deg);pointer-events:none}
+@media (max-width:560px){.hero-photo{width:110px;height:143px;right:-6px;top:20px;opacity:.18}}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:12px}
+.eyebrow::before{content:"";width:28px;height:2px;background:var(--red)}
+h1{margin:0;font-family:var(--title);font-weight:var(--tw);font-size:clamp(38px,7vw,68px);line-height:1;letter-spacing:-.03em;text-wrap:balance}
+.sub{margin:-6px 0 0;font-size:clamp(18px,2.6vw,24px);font-weight:500;color:var(--muted);line-height:1.25}
+.lede{margin:0;font-size:clamp(17px,2.2vw,19px);max-width:50ch;color:var(--soft)}
+
+.actions{display:flex;flex-wrap:wrap;gap:12px}
+.btn{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:10px;padding:14px 22px;border-radius:999px;font-weight:600;font-size:15px;transition:background .2s,color .2s,border-color .2s}
+.btn svg{width:18px;height:18px;fill:currentColor}
+.btn.primary{background:var(--fg);color:var(--bg)}
+.btn.primary:hover{background:var(--red);color:#fff}
+.btn.ghost{border:1px solid var(--rule);color:var(--fg)}
+.btn.ghost:hover{border-color:var(--fg)}
+
+.licence{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,260px);gap:32px;align-items:center;padding-top:28px;border-top:1px solid var(--rule)}
+.licence .actions{flex-direction:column;align-items:stretch;max-width:240px}
+.licence .actions .btn{justify-content:center}
+.plate{background:#fff;padding:10px;border-radius:4px}
+.plate img{display:block;width:100%;height:auto;min-height:81px}
+.licence h2{margin:0 0 8px;font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.licence p{margin:0;font-size:15px;color:var(--soft)}
+.licence dl{margin:12px 0 0;display:grid;grid-template-columns:auto 1fr;gap:2px 14px;font-size:13px}
+.licence dt{color:var(--muted)}.licence dd{margin:0;font-variant-numeric:tabular-nums}
+
+footer{margin-top:auto;display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;font-size:12px;color:var(--muted)}
+.link{all:unset;cursor:pointer;color:var(--fg);border-bottom:1px solid var(--red);padding-bottom:1px}
+
+/* ---------- QR overlay ---------- */
+.overlay{position:fixed;inset:0;z-index:20;background:rgba(8,9,11,.82);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:grid;place-items:center;padding:24px}
+.overlay[hidden]{display:none}
+.qrcard{background:var(--fg);color:var(--bg);border-radius:10px;padding:26px 26px 22px;width:min(100%,340px);display:flex;flex-direction:column;align-items:center;gap:12px;position:relative}
+#qr{width:100%;aspect-ratio:1;display:grid;place-items:center}
+#qr canvas{width:100%!important;height:auto!important}
+.qrurl{font-family:var(--display);font-weight:700;font-size:18px}
+.close{all:unset;cursor:pointer;position:absolute;top:8px;right:12px;font-size:22px;line-height:1;padding:6px;color:var(--bg)}
+.close:focus-visible{outline:2px solid var(--red)}
+
+@media (max-width:560px){.mark .mt{display:none}.licence{grid-template-columns:1fr;gap:24px}.licence .actions{flex-direction:row}.plate{max-width:280px}}
+@media (prefers-reduced-motion:reduce){.stamps > *,.btn{transition:none}}
+</style>
+
+<div class="stamps" id="stamps" aria-hidden="true"></div>
+
+<main class="page">
+  <header class="top">
+    <div class="mark"><span class="ball"></span><span class="mt">JEV SQUASH ACADEMY</span></div>
+    <div class="controls">
+      <div class="seg" id="langs" role="group" aria-label="Language">
+        <button id="l-en" data-l="en">EN</button>
+        <button id="l-de" data-l="de">DE</button>
+        <button id="l-lv" data-l="lv">LV</button>
+        <button id="l-ru" data-l="ru">RU</button>
+      </div>
+      <div class="seg bgsw" id="bgs" role="group" aria-label="Background">
+        <button id="bg-photos" data-bg="photos" aria-label="Background: photos" title="Photos">
+          <svg viewBox="0 0 24 24"><path d="M4 4h16v16H4zm2 2v9.6l3.5-3.5 3 3 2.5-2.5 3 3V6zm8 3.5a1.5 1.5 0 1 0 3 0 1.5 1.5 0 0 0-3 0z"/></svg>
+        </button>
+        <button id="bg-shots" data-bg="shots" aria-label="Background: photos and shot names" title="Shots">
+          <svg viewBox="0 0 24 24"><path d="M3 6h18v12H3zm2 2v8h14V8zm2 2h2.4l1.1 3.3L11.6 10H14l-2.4 6h-2z" /></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="eyebrow" data-i="eyebrow">Squash Academy · Coaching · Frankfurt Area</div>
+    <div class="photo hero-photo" aria-hidden="true"><img id="hero-img" src="img/s1.jpg" alt=""></div>
+    <h1>Jev Squash Academy</h1>
+    <p class="sub" data-i="sub">DOSB-licensed squash trainer</p>
+    <p class="lede" data-i="lede">Develop your technique, tactics, and movement with tailored squash coaching for juniors and adults.</p>
+  </section>
+
+  <section class="licence">
+    <div class="actions">
+      <button class="btn primary" id="btn-mail" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 5h20v14H2zm2 2v.5l8 5 8-5V7zm16 10V9.8l-8 5-8-5V17z"/></svg>
+        <span data-i="mail">Email me</span>
+      </button>
+      <button class="btn ghost" id="btn-tg" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.9 4.3 18.6 20c-.2 1.1-.9 1.4-1.8.9l-5-3.7-2.4 2.3c-.3.3-.5.5-1 .5l.4-5.1 9.2-8.3c.4-.4-.1-.6-.6-.2L6 13.6l-4.9-1.5c-1.1-.3-1.1-1.1.2-1.6L20.5 3c.9-.3 1.7.2 1.4 1.3z"/></svg>
+        Telegram
+      </button>
+      <a class="btn ghost" id="btn-club" href="https://sc-yellowdot.de" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5zm-2.5 7a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/></svg>
+        SC Yellow Dot
+      </a>
+    </div>
+    <div class="plate"><img src="img/dosb-signet.jpg" width="900" height="663" alt="DOSB licence signet: DOSB-Trainer C Leistungssport, Squash, DSqV-T-C-1515026, valid until 19.08.2030"></div>
+  </section>
+
+  <footer>
+    <span>© <span id="yr">2026</span> Jev Squash Academy</span>
+    <button class="link" id="open-qr" type="button" data-i="share">Share this page · QR code</button>
+  </footer>
+</main>
+
+<div class="overlay" id="overlay" hidden role="dialog" aria-modal="true" aria-label="QR code for squashacc.com">
+  <div class="qrcard">
+    <button class="close" id="close-qr" type="button" aria-label="Close">×</button>
+    <div id="qr"></div>
+    <div class="qrurl">squashacc.com</div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
+<script>
+(function(){
+  function store(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){return null}}
+
+  /* ---------- translations ---------- */
+  var T={
+    en:{eyebrow:"Squash Academy · Coaching · Frankfurt Area",sub:"DOSB-licensed squash trainer",
+        lede:"Develop your technique, tactics, and movement with tailored squash coaching for juniors and adults.",
+        mail:"Email me",licence:"Licence",issued:"Issued by the German Squash Association (DSqV), valid across the whole DOSB.",
+        licno:"Licence no.",valid:"Valid until",share:"Share this page · QR code"},
+    de:{eyebrow:"Squash-Akademie · Training · Raum Frankfurt",sub:"DOSB-lizenzierter Squash-Trainer",
+        lede:"Verbessere deine Technik, Taktik und Beweglichkeit mit individuellem Squashtraining für Kinder, Jugendliche und Erwachsene.",
+        mail:"E-Mail schreiben",licence:"Lizenz",issued:"Ausgestellt vom Deutschen Squash Verband (DSqV), gültig im Gesamtbereich des DOSB.",
+        licno:"Lizenz-Nr.",valid:"Gültig bis",share:"Seite teilen · QR-Code"},
+    lv:{eyebrow:"Skvoša akadēmija · Treniņi · Frankfurte. Vācija",sub:"DOSB licencēts skvoša treneris",
+        lede:"Attīsti savu tehniku, taktiku un kustību prasmes ar individuāli pielāgotiem skvoša treniņiem bērniem, jauniešiem un pieaugušajiem.",
+        mail:"Rakstīt e-pastu",licence:"Licence",issued:"Izsniegusi Vācijas Skvoša asociācija (DSqV), derīga visā DOSB.",
+        licno:"Licences Nr.",valid:"Derīga līdz",share:"Dalīties ar lapu · QR kods"},
+    ru:{eyebrow:"Академия сквоша · Тренировки · Франкфурт. Германия",sub:"Тренер по сквошу с лицензией DOSB",
+        lede:"Совершенствуй технику, тактику и передвижение по корту с индивидуальным подходом к тренировкам по сквошу для детей, подростков и взрослых.",
+        mail:"Написать e-mail",licence:"Лицензия",issued:"Выдана Немецкой ассоциацией сквоша (DSqV), действительна во всей системе DOSB.",
+        licno:"№ лицензии",valid:"Действительна до",share:"Поделиться · QR-код"}
+  };
+  function setLang(l,save){
+    if(!T[l])l="en";
+    document.documentElement.lang=l;
+    document.querySelectorAll("[data-i]").forEach(function(n){n.textContent=T[l][n.dataset.i]});
+    document.querySelectorAll("#langs button").forEach(function(b){b.setAttribute("aria-pressed",b.dataset.l===l)});
+    if(save)store("lang",l);
+  }
+  document.querySelectorAll("#langs button").forEach(function(b){b.addEventListener("click",function(){setLang(b.dataset.l,true)})});
+
+  /* Region → language. DE/AT/CH/LI → DE, LV → LV, RU/BY/KZ/KG → RU, everything else → EN. */
+  var C2L={DE:"de",AT:"de",CH:"de",LI:"de",LV:"lv",RU:"ru",BY:"ru",KZ:"ru",KG:"ru"};
+  var TZ2L={"Europe/Berlin":"de","Europe/Busingen":"de","Europe/Vienna":"de","Europe/Zurich":"de","Europe/Vaduz":"de",
+            "Europe/Riga":"lv","Europe/Moscow":"ru","Europe/Minsk":"ru","Europe/Kaliningrad":"ru","Europe/Samara":"ru",
+            "Europe/Volgograd":"ru","Asia/Yekaterinburg":"ru","Asia/Novosibirsk":"ru","Asia/Omsk":"ru","Asia/Krasnoyarsk":"ru",
+            "Asia/Irkutsk":"ru","Asia/Vladivostok":"ru","Asia/Almaty":"ru","Asia/Bishkek":"ru"};
+  var saved=store("lang");
+  if(saved&&T[saved]){setLang(saved)}
+  else{
+    var tz="";try{tz=Intl.DateTimeFormat().resolvedOptions().timeZone||""}catch(e){}
+    setLang(TZ2L[tz]||"en");
+    // On Cloudflare-proxied domains this returns the visitor's country (loc=XX) and refines the guess.
+    fetch("/cdn-cgi/trace",{cache:"no-store"}).then(function(r){return r.ok?r.text():""}).then(function(t){
+      var m=/loc=([A-Z]{2})/.exec(t||"");if(m&&!store("lang"))setLang(C2L[m[1]]||"en");
+    }).catch(function(){});
+  }
+  document.getElementById("yr").textContent=new Date().getFullYear();
+
+  /* ---------- background stamps ---------- */
+  var pics=["img/s1.jpg","img/s2.jpg","img/s3.jpg"];
+  var shots=["Drive","Drop","Dive","Lob","Boast","Cross","Volley","Kill","Smash","Nick"];
+  document.getElementById("hero-img").src=Math.random()<.5?"img/s1.jpg":"img/s2.jpg";
+  var layer=document.getElementById("stamps"),mode=store("bg")==="shots"?"shots":"photos";
+  function rnd(a,b){return a+Math.random()*(b-a)}
+  function bag(list,n){var b=[];while(b.length<n)b=b.concat(list.slice().sort(function(){return Math.random()-.5}));return b.slice(0,n)}
+  function place(el,w,h,W,H){el.style.left=rnd(-w*.3,W-w*.7)+"px";el.style.top=rnd(-h*.3,H-h*.7)+"px";
+    el.style.transform="rotate("+rnd(-16,16).toFixed(1)+"deg)";el.style.setProperty("--o",rnd(.07,.18).toFixed(2))}
+  function photo(src,W,H,small){
+    var land=src.indexOf("s3")>-1,w=rnd(small?90:120,small?140:200),h=land?w*.75:w*1.3;
+    var s=document.createElement("div");s.className="photo";s.style.width=w+"px";s.style.height=h+"px";
+    var im=new Image();im.src=src;im.alt="";s.appendChild(im);place(s,w,h,W,H);return s;
+  }
+  function word(txt,W,H,small){
+    var s=document.createElement("div");s.className="word"+(Math.random()<.22?" red":"");s.textContent=txt;
+    var fs=rnd(small?16:20,small?30:44);s.style.fontSize=fs+"px";
+    var w=fs*(txt.length*.85+1.4),h=fs*1.9;place(s,w,h,W,H);
+    s.style.transform="rotate("+rnd(0,360).toFixed(1)+"deg)"; // any angle, incl. upside down
+    if(s.classList.contains("red"))s.style.setProperty("--o",rnd(.12,.22).toFixed(2));
+    return s;
+  }
+  function lay(){
+    layer.innerHTML="";layer.classList.remove("on");document.body.dataset.bg=mode;
+    var W=innerWidth,H=innerHeight,small=W<600,frag=document.createDocumentFragment();
+    if(mode==="photos"){bag(pics,small?7:12).forEach(function(p){frag.appendChild(photo(p,W,H,small))})}
+    else{
+      bag(pics,small?3:5).forEach(function(p){frag.appendChild(photo(p,W,H,small))});
+      bag(shots,small?15:26).forEach(function(t){frag.appendChild(word(t,W,H,small))});
+    }
+    layer.appendChild(frag);
+    document.querySelectorAll("#bgs button").forEach(function(b){b.setAttribute("aria-pressed",b.dataset.bg===mode)});
+    requestAnimationFrame(function(){requestAnimationFrame(function(){layer.classList.add("on")})});
+  }
+  document.querySelectorAll("#bgs button").forEach(function(b){b.addEventListener("click",function(){mode=b.dataset.bg;store("bg",mode);lay()})});
+  lay();var rt,lastW=innerWidth;
+  addEventListener("resize",function(){clearTimeout(rt);rt=setTimeout(function(){if(Math.abs(innerWidth-lastW)>80){lastW=innerWidth;lay()}},400)});
+
+  /* ---------- contacts: assembled only on click, never in the page source ---------- */
+  function d(a){return a.map(function(c){return String.fromCharCode(c-3)}).join("")}
+  document.getElementById("btn-mail").addEventListener("click",function(){
+    location.href=d([112,100,108,111,119,114,61])+d([109])+"@"+d([109,104,121,49,111,121]);
+  });
+  document.getElementById("btn-tg").addEventListener("click",function(){
+    var u=d([107,119,119,115,118,61,50,50,119,49,112,104,50])+d([77,104,121,90,100,124]);
+    var w=window.open(u,"_blank","noopener");if(!w)location.href=u;
+  });
+
+  /* ---------- QR overlay: squashacc.com only ---------- */
+  var ov=document.getElementById("overlay"),qrBox=document.getElementById("qr"),qr=null,opener=document.getElementById("open-qr");
+  var ball='data:image/svg+xml;utf8,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="#0e1013"/><circle cx="38" cy="40" r="8" fill="#f2c81b"/><circle cx="62" cy="40" r="8" fill="#f2c81b"/></svg>');
+  function openQR(){
+    ov.hidden=false;
+    if(!qr){
+      if(window.QRCodeStyling){
+        qr=new QRCodeStyling({width:520,height:520,type:"canvas",data:"https://squashacc.com",image:ball,margin:0,
+          qrOptions:{errorCorrectionLevel:"H"},dotsOptions:{type:"rounded",color:"#0e1013"},
+          cornersSquareOptions:{type:"extra-rounded",color:"#d6233c"},cornersDotOptions:{type:"dot",color:"#0e1013"},
+          backgroundOptions:{color:"#f2f0eb"},imageOptions:{margin:6,imageSize:.28}});
+        qr.append(qrBox);
+      }else qrBox.textContent="https://squashacc.com";
+    }
+    document.getElementById("close-qr").focus();
+  }
+  function closeQR(){ov.hidden=true;opener.focus()}
+  opener.addEventListener("click",openQR);
+  document.getElementById("close-qr").addEventListener("click",closeQR);
+  ov.addEventListener("click",function(e){if(e.target===ov)closeQR()});
+  addEventListener("keydown",function(e){if(e.key==="Escape"&&!ov.hidden)closeQR()});
+})();
+</script>
